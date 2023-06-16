@@ -8,63 +8,45 @@ words = [
      "pan"
      ]
 
-#Randomly selct a word
-secret_word = random.choice(words)
-#Convert the randomly selected word to a list
-word_list = list(secret_word) 
-#Create an empty list to hold the rightly guessed letters
-answer = []
-print("This is a ", len(secret_word), "letter word")
-#Display dashes according to the numder of letters in the secret word
-for i in (secret_word):
-    i = " _ "
-    print(i, end="")
-    answer.append(i)
-#Ask for the player's guess and rack the progress of his guesses 
-while word_list: 
-    guess = input("\nGuess a word and enter it letter by letter: ")
-    #replace each dash with a correctly guessed letter in the very position
-    # of the letter in the secret word 
-    for char in word_list:
-        if guess == char:
-            answer.pop(word_list.index(guess))
-            answer.insert(word_list.index(guess), guess)
-    print(answer)
-         
+
+def guess_in_any_order(secret_word):
+    answer = []
+    for _ in (secret_word):
+        answer.append('_')
+
+    n_chars = len(secret_word)
+    while n_chars > 0: 
+        guess = input("\nGuess a word and enter it letter by letter: ")
+        for i, char in enumerate(secret_word):
+            if guess == char:
+                answer[i] = guess
+                n_chars -= 1
+        print(answer)
 
 
+def guess_in_exact_order(secret_word):
+    answer = []
+    for _ in (secret_word):
+        answer.append('_')
+
+    position = 0
+    while position < len(answer):
+        guess = input("\nGuess a word and enter it letter by letter: ")
+        if guess == secret_word[position]:
+            answer[position] = guess
+            position += 1
+        print(answer)
 
 
-
-
-# words = [
-#      "java",
-#      "money",
-#      "amazing",
-#      "pan",
-#      "mississippi"
-#      ]
-# word = random.choice(words)  
-# answer = " "
-# print("This is a ", len(word), "letter word")
-
-
-# while word:  
-#     for i in word:
-#         if i in answer:
-#             print(i,end=" ")
-#         else:
-#             print(" _ ",end="") 
-#     guess = input("\nGuess a word and enter it leatter by letter: ")     
-#     answer += guess.lower()
-#     if answer.strip() == word:
-#         print("\nYou won!")
-#         break
+def run_hangman_game():
+    secret_word = random.choice(words)
+    print("This is a ", len(secret_word), "letter word\n")
     
+    # guess_in_any_order(secret_word)
+    guess_in_exact_order(secret_word)
+
+    print("\nYou got it!")    
 
 
-
-
- 
-
-
+if __name__ == '__main__':
+    run_hangman_game()
